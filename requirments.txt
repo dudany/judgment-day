@@ -4,3 +4,4 @@ lxml==4.9.2
 textract==1.6.5
 transformers==4.38.2
 torch==2.2.1
+pandas==2.2.1

@@ -1,11 +1,12 @@
 from elasticsearch import Elasticsearch
-from judgment_day.ml_utils import get_embedding
+from ml_utils import get_embedding
 
 
 es = Elasticsearch(["http://localhost:9200"])
 
 query_text = "Announcement: Here's what we predict."
-query_embedding = get_embedding(query_text)
+query_text_2 = "Over the last three years, the WineCommune platform has evolved from a simple forum for wine enthusiasts to trade bottles into a global marketplace, now boasting more than 10,000 users."
+query_embedding = get_embedding(query_text_2)
 
 script_query = {
     "script_score": {

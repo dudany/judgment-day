@@ -1,8 +1,7 @@
 import re
 import pandas as pd
 from elasticsearch import Elasticsearch
-
-from judgment_day.ml_utils import get_embedding
+from ml_utils import get_embedding
 
 es = Elasticsearch(["http://localhost:9200"])
 
@@ -44,12 +43,7 @@ def insert_into_enron_emails(m):
 
 
 file_path = '/Users/dani.dubinsky@openweb.com/Desktop/peskei_din/emails.csv'
-LIMIT = 5
-chunk_iterator = pd.read_csv(file_path, chunksize=1)
-c = 0
+chunk_iterator = pd.read_csv(file_path, chunksize=10000)
 for chunk in chunk_iterator:
-    if c > LIMIT:
-        break
     chunk['message'].apply(insert_into_enron_emails)
-    c += 1
-    print('inserted')
+

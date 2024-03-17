@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0  # Use the version appropriate for your needs
+    environment:
+      - xpack.security.enabled=false
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true  # Remove or set to false if not needed
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"  # Adjust heap size as necessary
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data  # Persist data across container restarts
+    ports:
+      - "9200:9200"  # Expose port 9200 for HTTP
+      - "9300:9300"  # Expose port 9300 for internal Elasticsearch communication
+    networks:
+      - esnet
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.12.0
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      -   esnet
+volumes:
+  esdata1:
+    driver: local
+
+networks:
+  esnet:
+    driver: bridge

@@ -13,8 +13,8 @@ services:
       memlock:
         soft: -1
         hard: -1
-    volumes:
-      - esdata1:/usr/share/elasticsearch/data  # Persist data across container restarts
+#    volumes:
+#      - esdata1:/usr/share/elasticsearch/data  # Persist data across container restarts
     ports:
       - "9200:9200"  # Expose port 9200 for HTTP
       - "9300:9300"  # Expose port 9300 for internal Elasticsearch communication
@@ -31,9 +31,9 @@ services:
       - elasticsearch
     networks:
       -   esnet
-volumes:
-  esdata1:
-    driver: local
+#volumes:
+#  esdata1:
+#    driver: local
 
 networks:
   esnet:
